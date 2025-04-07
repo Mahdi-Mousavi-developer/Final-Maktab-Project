@@ -1,0 +1,95 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Search WebappUser</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h1>Search user by role</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    <form action="#" th:action="@{/admin/search-by-role}" th:object="${students}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;        <label for="role">role:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="text" id="role" name="role" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <button type="submit">Search</button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </form>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <h2>Search Results</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <thead>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>ID</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>role</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>firsName</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>lastName</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>username</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>dob</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>National Code</th>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        </thead>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tr th:each="student : ${students}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.id}">ID</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.role}">role</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.firstName}">firsName</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.lastName}">lastName</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.username}">username</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.dob}">dob</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${student.nationalCode}">National Code</td>&ndash;&gt;-->
+<!--&lt;!&ndash;        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        </tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;    </table>&ndash;&gt;-->
+<!--&lt;!&ndash;    </body>&ndash;&gt;-->
+<!--&lt;!&ndash;    </html>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Search Users by Role</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container mt-5">-->
+<!--    <h1 class="text-center">Search Users by Role</h1>-->
+
+<!--    &lt;!&ndash; فرم جستجو &ndash;&gt;-->
+<!--    <form th:action="@{/admin/search-by-role}" method="post" class="mt-4">-->
+<!--        <div class="form-group">-->
+<!--            <label for="role">Role</label>-->
+<!--            <input type="text" class="form-control" id="role" name="role" th:value="${role}" required>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-info">Search</button>-->
+<!--    </form>-->
+
+<!--    &lt;!&ndash; نمایش نتایج جستجو &ndash;&gt;-->
+<!--    <div class="mt-4" th:if="${users != null}">-->
+<!--        <h3>Search Results</h3>-->
+<!--        <table class="table table-bordered">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>ID</th>-->
+<!--                <th>Username</th>-->
+<!--                <th>Role</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="user : ${users}">-->
+<!--                <td th:text="${user.id}"></td>-->
+<!--                <td th:text="${user.username}"></td>-->
+<!--                <td th:text="${user.role}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; نمایش خطا در صورت عدم یافتن کاربر &ndash;&gt;-->
+<!--    <div class="mt-4" th:if="${error != null}">-->
+<!--        <div class="alert alert-danger" th:text="${error}"></div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

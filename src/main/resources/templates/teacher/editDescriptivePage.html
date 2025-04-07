@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Descriptive Question</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Descriptive Question</h1>
+    <form th:action="@{/question/update-descriptive/{id}(id=${question.id})}" method="post">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" class="form-control" th:field="*{question.title}" required>
+        </div>
+        <div class="form-group">
+            <label for="questionScore">Question Score:</label>
+            <input type="number" id="questionScore" class="form-control" th:field="*{question.questionScore}" required>
+        </div>
+        <div class="form-group">
+            <label for="questionText">Question Text:</label>
+            <textarea id="questionText" class="form-control" th:field="*{question.questionText}" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+</body>
+</html>

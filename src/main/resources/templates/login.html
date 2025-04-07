@@ -1,0 +1,63 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns="http://www.w3.org/1999/html">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>login</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>welcome to login page</h1>-->
+<!--<h2 th:if="${error}" th:text="${error}"></h2>-->
+<!--&lt;!&ndash;in to spring security handel mishe&ndash;&gt;-->
+<!--<form th:action="@{/login}" method="post">-->
+<!--    <label>username : <input type="text" name="username"/></label><br/>-->
+<!--    <label>password : <input type="password" name="password"/></label><br/>-->
+<!--    <button type="submit">login</button>-->
+<!--</form>-->
+<!--<a>Click the register below to create an account. </a>-->
+<!--<a th:href="@{/register}">Register</a>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">Welcome to Login Page</h1>
+                </div>
+                <div class="card-body">
+                    <h2 th:if="${error}" th:text="${error}" class="text-danger text-center"></h2>
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Click the register below to create an account.</p>
+                        <a th:href="@{/register}" class="btn btn-link">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

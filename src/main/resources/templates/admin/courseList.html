@@ -1,0 +1,117 @@
+<!-- <!DOCTYPE html>-->
+
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+
+<!--    <meta charset="UTF-8">-->
+
+<!--    <title>لیست دوره‌ها</title>-->
+
+
+
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<h1>لیست دوره‌ها</h1>-->
+
+<!--<table border="2">-->
+
+<!--    <thead>-->
+
+<!--    <tr>-->
+
+<!--        <th>عنوان دوره</th>-->
+
+<!--        <th>شروع دوره</th>-->
+
+<!--        <th>عملیات</th>-->
+
+<!--    </tr>-->
+
+<!--    </thead>-->
+
+<!--    <tbody>-->
+
+<!--    <tr th:each="course : ${courseList}">-->
+
+<!--        <td th:text="${course.title}"></td>-->
+
+<!--        <td th:text="${course.startDate}"></td>-->
+
+<!--        <td>-->
+
+<!--            <a th:href="@{/course/{id}(id=${course.id})}">مشاهده</a>-->
+
+<!--        </td>-->
+
+<!--        <td>-->
+
+<!--            <form th:action="@{/course/delete/{id}(id=${course.id})}" method="post" style="display:inline;">-->
+
+<!--                <button type="submit" onclick="return confirm('آیا از حذف این دوره مطمئن هستید؟')">حذف دوره</button>-->
+
+<!--            </form>-->
+
+<!--        </td>-->
+
+<!--        <td>-->
+
+<!--            <form th:action="@{course/edit/{id}(id=${course.id})}" method="get" >-->
+
+<!--                <button type="submit">edit</button>-->
+
+<!--            </form>-->
+
+<!--        </td>-->
+
+<!--    </tr>-->
+
+<!--    </tbody>-->
+
+<!--</table>-->
+
+<!--</body>-->
+
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست دوره‌ها</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">لیست دوره‌ها</h1>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>عنوان دوره</th>
+            <th>شروع دوره</th>
+            <th>عملیات</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courseList}">
+            <td th:text="${course.title}"></td>
+            <td th:text="${course.startDate}"></td>
+            <td>
+                <a th:href="@{/course/{id}(id=${course.id})}" class="btn btn-info btn-sm">مشاهده</a>
+                <form th:action="@{/course/delete/{id}(id=${course.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('آیا از حذف این دوره مطمئن هستید؟')">حذف دوره</button>
+                </form>
+                <a th:href="@{/course/edit/{id}(id=${course.id})}" class="btn btn-warning btn-sm">ویرایش</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="text-center mt-4 ">
+        <a th:href="@{/homepage}" class="btn btn-primary">برگشتن به صفحه اصلی</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

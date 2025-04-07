@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Bank</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* اضافه کردن استایل برای بهبود ظاهر */
+        .score-input {
+            width: 80px; /* عرض فیلد score */
+            margin-right: 10px; /* فاصله بین فیلد score و دکمه */
+        }
+        .action-buttons {
+            white-space: nowrap; /* جلوگیری از شکستن خط دکمه‌ها */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Question Bank</h1>
+    <h3>Exam: <span th:text="${exam.name}"></span></h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th>Score</th> <!-- ستون Score به سمت راست منتقل شد -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- نمایش هر سوال به همراه دکمه "اضافه کردن" -->
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.title}"></td>
+            <td th:text="${question.questionText}"></td>
+            <td th:text="${question.questionType}"></td>
+            <td>
+                <!-- فیلد دریافت score از کاربر (عدد صحیح) -->
+                <form th:action="@{/question/addToExam/{examId}/{questionId}(examId=${exam.id}, questionId=${question.id})}" method="post" class="d-flex">
+                    <input type="number" name="score" class="form-control score-input" min="0" step="1" th:value="${question.questionScore}" required>
+                    <button type="submit" class="btn btn-primary">Add to Exam</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

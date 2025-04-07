@@ -1,0 +1,413 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Doing Exam</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        .container {&ndash;&gt;-->
+<!--&lt;!&ndash;            max-width: 800px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 0 auto;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .question {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .question h3 {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .question p {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .options {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .options label {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: block;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        textarea {&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;            height: 150px;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;            border: 1px solid #ccc;&ndash;&gt;-->
+<!--&lt;!&ndash;            border-radius: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        button {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 10px 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #007bff;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: #fff;&ndash;&gt;-->
+<!--&lt;!&ndash;            border: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            border-radius: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;            cursor: pointer;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; نمایش اطلاعات امتحان &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <h1>Exam: <span th:text="${exam.name}"></span></h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>Total Questions: <span th:text="${countOfQuestions}"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>Current Question: <span th:text="${questionIndex + 1}"></span></p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; نمایش سوال &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="question" th:if="${question != null}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h3>Question:</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p th:text="${question.questionText}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Score: <span th:text="${question.questionScore}"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; نمایش پیام (massage) در صورت وجود &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <div th:if="${massage != null and !massage.isEmpty()}" class="alert alert-info">&ndash;&gt;-->
+<!--&lt;!&ndash;            <p th:text="${massage}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash; فیلد پاسخ برای سوال توصیفی &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;            <textarea name="answer" placeholder="Type your answer here..."></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="hidden" name="questionIndex" th:value="${questionIndex}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button type="submit">Submit Answer</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; نمایش سوال چندگزینه‌ای &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="question" th:if="${multipleChoiceQuestion != null}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h3>Multiple Choice Question:</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p th:text="${multipleChoiceQuestion.questionText}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Score: <span th:text="${multipleChoiceQuestion.questionScore}"></span></p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash; گزینه‌ها &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="options">&ndash;&gt;-->
+<!--&lt;!&ndash;            <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label th:each="option : ${multipleChoiceQuestion.choices}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <input type="radio" name="answer" th:value="${option}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span th:text="${option}"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="hidden" name="questionIndex" th:value="${questionIndex}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit">Submit Answer</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; دکمه‌های ناوبری &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="navigation">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a th:if="${questionIndex > 0}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex - 1})}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button>Previous Question</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a th:if="${questionIndex < countOfQuestions - 1}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex + 1})}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button>Next Question</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Doing Exam</title>-->
+<!--    <style>-->
+<!--        .container {-->
+<!--            max-width: 800px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 20px;-->
+<!--        }-->
+<!--        .question {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--        .question h3 {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--        .question p {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--        .options {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--        .options label {-->
+<!--            display: block;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--        textarea {-->
+<!--            width: 100%;-->
+<!--            height: 150px;-->
+<!--            padding: 10px;-->
+<!--            font-size: 16px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!--        button {-->
+<!--            padding: 10px 20px;-->
+<!--            font-size: 16px;-->
+<!--            background-color: #007bff;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .alert {-->
+<!--            padding: 15px;-->
+<!--            margin-bottom: 20px;-->
+<!--            border: 1px solid transparent;-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+<!--        .alert-info {-->
+<!--            background-color: #d9edf7;-->
+<!--            border-color: #bce8f1;-->
+<!--            color: #31708f;-->
+<!--        }-->
+<!--        .btn-danger {-->
+<!--            background-color: #d9534f;-->
+<!--            color: #fff;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    &lt;!&ndash; نمایش پیام (massage) در صورت وجود &ndash;&gt;-->
+<!--    <div th:if="${massage != null and !massage.isEmpty()}" class="alert alert-info">-->
+<!--        <p th:text="${massage}"></p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; نمایش اطلاعات امتحان &ndash;&gt;-->
+<!--    <h1>Exam: <span th:text="${exam.name}"></span></h1>-->
+<!--    <p>Total Questions: <span th:text="${countOfQuestions}"></span></p>-->
+<!--    <p>Current Question: <span th:text="${questionIndex + 1}"></span></p>-->
+
+<!--    &lt;!&ndash; نمایش سوال &ndash;&gt;-->
+<!--    <div class="question" th:if="${question != null}">-->
+<!--        <h3>Question:</h3>-->
+<!--        <p th:text="${question.questionText}"></p>-->
+<!--        <p>Score: <span th:text="${question.questionScore}"></span></p>-->
+
+<!--        &lt;!&ndash; فیلد پاسخ برای سوال توصیفی &ndash;&gt;-->
+<!--        <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">-->
+<!--            <textarea name="answer" placeholder="Type your answer here..."></textarea>-->
+<!--            <input type="hidden" name="questionIndex" th:value="${questionIndex}">-->
+<!--            <button type="submit">Submit Answer</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; نمایش سوال چندگزینه‌ای &ndash;&gt;-->
+<!--    <div class="question" th:if="${multipleChoiceQuestion != null}">-->
+<!--        <h3>Multiple Choice Question:</h3>-->
+<!--        <p th:text="${multipleChoiceQuestion.questionText}"></p>-->
+<!--        <p>Score: <span th:text="${multipleChoiceQuestion.questionScore}"></span></p>-->
+
+<!--        &lt;!&ndash; گزینه‌ها &ndash;&gt;-->
+<!--        <div class="options">-->
+<!--            <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">-->
+<!--                <label th:each="option : ${multipleChoiceQuestion.choices}">-->
+<!--                    <input type="radio" name="answer" th:value="${option}">-->
+<!--                    <span th:text="${option}"></span>-->
+<!--                </label>-->
+<!--                <input type="hidden" name="questionIndex" th:value="${questionIndex}">-->
+<!--                <button type="submit">Submit Answer</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; دکمه‌های ناوبری &ndash;&gt;-->
+<!--    <div class="navigation">-->
+<!--        <a th:if="${questionIndex > 0}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex - 1})}">-->
+<!--            <button>Previous Question</button>-->
+<!--        </a>-->
+<!--        <a th:if="${questionIndex < countOfQuestions - 1}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex + 1})}">-->
+<!--            <button>Next Question</button>-->
+<!--        </a>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; دکمه پایان آزمون (فقط در سوال آخر نمایش داده شود) &ndash;&gt;-->
+<!--    <div th:if="${questionIndex == countOfQuestions - 1}" class="navigation">-->
+<!--        <form th:action="@{/studentsController/finish-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">-->
+<!--            <button type="submit" class="btn btn-danger">پایان آزمون</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doing Exam</title>
+    <!-- اضافه کردن فایل‌های CSS بوت‌استرپ -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- اضافه کردن فونت Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- استایل‌های سفارشی برای صفحه -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* رنگ پس‌زمینه کلی */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .exam-info {
+            background-color: #1abc9c; /* رنگ پس‌زمینه شادتر (فیروزه‌ای) */
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .exam-info h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .exam-info p {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .question h3 {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .question p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #555;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- نمایش پیام (massage) در صورت وجود -->
+    <div th:if="${massage != null and !massage.isEmpty()}" class="alert alert-info">
+        <p th:text="${massage}"></p>
+    </div>
+
+    <!-- نمایش اطلاعات امتحان -->
+    <div class="exam-info">
+        <h1>Exam: <span th:text="${exam.name}"></span></h1>
+        <p>Total Questions: <span th:text="${countOfQuestions}"></span></p>
+        <p>Current Question: <span th:text="${questionIndex + 1}"></span></p>
+    </div>
+
+    <!-- نمایش سوال -->
+    <div class="question" th:if="${question != null}">
+        <h3>Question:</h3>
+        <p th:text="${question.questionText}"></p>
+        <p>Score: <span th:text="${question.questionScore}"></span></p>
+
+        <!-- فیلد پاسخ برای سوال توصیفی -->
+        <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">
+            <textarea name="answer" placeholder="Type your answer here..."></textarea>
+            <input type="hidden" name="questionIndex" th:value="${questionIndex}">
+            <button type="submit">Submit Answer</button>
+        </form>
+    </div>
+
+    <!-- نمایش سوال چندگزینه‌ای -->
+    <div class="question" th:if="${multipleChoiceQuestion != null}">
+        <h3>Multiple Choice Question:</h3>
+        <p th:text="${multipleChoiceQuestion.questionText}"></p>
+        <p>Score: <span th:text="${multipleChoiceQuestion.questionScore}"></span></p>
+
+        <!-- گزینه‌ها -->
+        <div class="options">
+            <form th:action="@{/studentsController/start-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">
+                <label th:each="option : ${multipleChoiceQuestion.choices}">
+                    <input type="radio" name="answer" th:value="${option}">
+                    <span th:text="${option}"></span>
+                </label>
+                <input type="hidden" name="questionIndex" th:value="${questionIndex}">
+                <button type="submit">Submit Answer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- دکمه‌های ناوبری -->
+    <div class="navigation">
+        <a th:if="${questionIndex > 0}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex - 1})}">
+            <button>Previous Question</button>
+        </a>
+        <a th:if="${questionIndex < countOfQuestions - 1}" th:href="@{/studentsController/start-exam/{examId}(examId=${exam.id}, questionIndex=${questionIndex + 1})}">
+            <button>Next Question</button>
+        </a>
+    </div>
+
+    <!-- دکمه پایان آزمون (فقط در سوال آخر نمایش داده شود) -->
+    <div th:if="${questionIndex == countOfQuestions - 1}" class="navigation">
+        <form th:action="@{/studentsController/finish-exam/{examId}/{studentId}(examId=${exam.id}, studentId=${studentId})}" method="post">
+            <button type="submit" class="btn btn-danger">پایان آزمون</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

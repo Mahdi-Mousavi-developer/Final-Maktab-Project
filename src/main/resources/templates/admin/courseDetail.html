@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Course Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${course.title}">Course Title</h5>
+            <p class="card-text">
+                <strong>Unique Identifier:</strong> <span th:text="${course.uniqueIdentifier}"></span><br>
+                <strong>Start Date:</strong> <span th:text="${course.startDate}"></span><br>
+                <strong>End Date:</strong> <span th:text="${course.endDate}"></span><br>
+                <strong>Teacher:</strong> <span
+                    th:text="${course.teacher != null ? course.teacher.username : 'No Teacher Assigned'}"></span><br>
+            </p>
+        </div>
+    </div>
+
+    <!-- لیست دانشجویان -->
+    <h3 class="mt-4">Students</h3>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="student : ${course.students}" th:text="${student.username}"></li>
+    </ul>
+    <div class="text-center mt-4">
+        <a th:href="@{/course}" class="btn btn-primary">برگشتن به صفحه دوره ها</a>
+    </div>
+</div>
+
+</body>
+</html>

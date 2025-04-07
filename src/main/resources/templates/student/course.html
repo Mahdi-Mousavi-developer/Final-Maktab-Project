@@ -1,0 +1,192 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>جزئیات دوره</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--    <style>-->
+<!--        /* استایل‌های سفارشی */-->
+<!--        .exam-card {-->
+<!--            margin-bottom: 20px;-->
+<!--            padding: 15px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+
+<!--        .exam-card h4 {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .exam-card p {-->
+<!--            margin: 5px 0;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    &lt;!&ndash; آلارم برای massage &ndash;&gt;-->
+<!--    <div th:if="${massage != null}" class="alert alert-info" role="alert">-->
+<!--        <span th:text="${massage}"></span>-->
+<!--        <div th:if="${totalStudentMultipleScore != null}">-->
+<!--            <span th:text="${massage2}"></span>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; اطلاعات دوره &ndash;&gt;-->
+<!--    <h1>course : <span th:text="${course.title}"></span></h1>-->
+<!--    <p>uniqueIdentifier : <span th:text="${course.uniqueIdentifier}"></span></p>-->
+<!--    <p>teacher : <span th:text="${course.teacher.username}"></span></p>-->
+
+<!--    &lt;!&ndash; لیست امتحانات &ndash;&gt;-->
+<!--    <h2>امتحانات</h2>-->
+<!--    <div th:each="exam : ${exams}">-->
+<!--        <div class="exam-card">-->
+<!--            <h4 th:text="${exam.name}"></h4>-->
+<!--            <p th:text="${exam.description}"></p>-->
+<!--            <p>مدت زمان: <span th:text="${exam.duration}"></span> دقیقه</p>-->
+<!--            <p>نمره: <span th:text="${exam.score}"></span></p>-->
+<!--            <p>تاریخ شروع: <span th:text="${#temporals.format(exam.startDate, 'yyyy-MM-dd HH:mm')}"></span></p>-->
+<!--            <p>تاریخ پایان: <span th:text="${#temporals.format(exam.endDate, 'yyyy-MM-dd HH:mm')}"></span></p>-->
+
+<!--            &lt;!&ndash; دکمه شرکت در آزمون &ndash;&gt;-->
+<!--            <form th:action="@{/studentsController/canTakeExam/{examId}/{studentId}(examId=${exam.id}, studentId=${user.id})}"-->
+<!--                  method="get">-->
+<!--                <button type="submit" class="btn btn-primary">شرکت در آزمون</button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    <div class="text-center mt-4 ">-->
+<!--        <a th:href="@{/homepage}" class="btn btn-primary">برگشتن به صفحه اصلی</a>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>جزئیات دوره</title>
+    <!-- اضافه کردن فایل‌های CSS بوت‌استرپ -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- اضافه کردن فونت Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- استایل‌های سفارشی برای صفحه -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* رنگ پس‌زمینه کلی */
+            margin: 0;
+            padding: 0;
+        }
+        .header-section {
+            background-color: palevioletred; /* رنگ پس‌زمینه شادتر (فیروزه‌ای) */
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header-section h1, .header-section p {
+            margin: 0;
+            font-weight: 600;
+        }
+        .header-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .header-section p {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px; /* محدود کردن عرض برای مرکز‌چین شدن */
+            margin: 0 auto; /* مرکز‌چین کردن محتوا */
+        }
+        .exam-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .exam-card h4 {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .exam-card p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .alert-info {
+            background-color: #d9edf7;
+            border-color: #bee5eb;
+            color: #0c5460;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="header-section">
+    <h1>Course: <span th:text="${course.title}"></span></h1>
+    <p>Unique Identifier: <span th:text="${course.uniqueIdentifier}"></span></p>
+    <p>Teacher: <span th:text="${course.teacher.username}"></span></p>
+</div>
+
+<div class="container">
+    <!-- آلارم برای massage -->
+    <div th:if="${massage != null}" class="alert alert-info" role="alert">
+        <span th:text="${massage}"></span>
+        <div th:if="${totalStudentMultipleScore != null}">
+            <span th:text="${massage2}"></span>
+        </div>
+    </div>
+
+    <!-- لیست امتحانات -->
+    <h2>امتحانات</h2>
+    <div th:each="exam : ${exams}">
+        <div class="exam-card">
+            <h4 th:text="${exam.name}"></h4>
+            <p th:text="${exam.description}"></p>
+            <p>مدت زمان: <span th:text="${exam.duration}"></span> دقیقه</p>
+            <p>نمره: <span th:text="${exam.score}"></span></p>
+            <p>تاریخ شروع: <span th:text="${#temporals.format(exam.startDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+            <p>تاریخ پایان: <span th:text="${#temporals.format(exam.endDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+
+            <!-- دکمه شرکت در آزمون -->
+            <form th:action="@{/studentsController/canTakeExam/{examId}/{studentId}(examId=${exam.id}, studentId=${user.id})}" method="get">
+                <button type="submit" class="btn btn-primary">شرکت در آزمون</button>
+            </form>
+        </div>
+    </div>
+        <div class="text-center mt-4 ">
+            <a th:href="@{/homepage}" class="btn btn-primary">برگشتن به صفحه اصلی</a>
+        </div>
+</div>
+</body>
+</html>

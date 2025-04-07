@@ -1,0 +1,126 @@
+<!-- <!DOCTYPE html>-->
+
+<!--<html lang="en">-->
+
+<!--<head>-->
+
+<!--    <meta charset="UTF-8">-->
+
+<!--    <html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--    <head>-->
+
+<!--        <title>ساخت دوره جدید</title>-->
+
+
+
+<!--    </head>-->
+
+<!--    <body>-->
+
+<!--    <div class="container">-->
+
+<!--        <h1>ساخت دوره جدید</h1>-->
+
+<!--        <form th:action="@{/course/add}" th:object="${courses}" method="post">-->
+
+<!--            <div>-->
+
+<!--                <label for="title">موضوع:</label>-->
+
+<!--                <input type="text" id="title" th:field="*{title}" required>-->
+
+<!--            </div>-->
+
+<!--            <div>-->
+
+<!--                <label for="UniqueIdentifier">کد درس:</label>-->
+
+<!--                <input type="text" id="UniqueIdentifier" th:field="*{uniqueIdentifier}" required>-->
+
+<!--            </div>-->
+
+<!--            <div>-->
+
+<!--                <label for="startDate">تاریخ شروع:</label>-->
+
+<!--                <input type="datetime-local" id="startDate" th:field="*{startDate}" required>-->
+
+<!--            </div>-->
+
+<!--            <div>-->
+
+<!--                <label for="endDate">تاریخ پایان:</label>-->
+
+<!--                <input type="datetime-local" id="endDate" th:field="*{endDate}" required>-->
+
+<!--            </div>-->
+
+<!--            <div>-->
+
+<!--                <label for="teacher">استاد دوره:</label>-->
+
+<!--                <select id="teacher" th:field="*{teacher}">-->
+
+<!--                    <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.id + ' |' +teacher.firstName + ' ' + teacher.lastName}"></option>-->
+
+<!--                </select>-->
+
+<!--            </div>-->
+
+<!--            <button type="submit">Create Course</button>-->
+
+<!--        </form>-->
+
+<!--        <div class="text-center mt-4">-->
+<!--            <a th:href="@{/homepage}" class="btn btn-primary">Back to admin page</a>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--    </body>-->
+
+<!--    </html>-->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساخت دوره جدید</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Create Course page</h1>
+    <form th:action="@{/course/add}" th:object="${courses}" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">موضوع:</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+        </div>
+        <div class="mb-3">
+            <label for="startDate" class="form-label">تاریخ شروع:</label>
+            <input type="datetime-local" class="form-control" id="startDate" th:field="*{startDate}" required>
+        </div>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">تاریخ پایان:</label>
+            <input type="datetime-local" class="form-control" id="endDate" th:field="*{endDate}" required>
+        </div>
+        <div class="mb-3">
+            <label for="teacher" class="form-label">استاد دوره:</label>
+            <select id="teacher" class="form-select" th:field="*{teacher}">
+                <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.id + ' | ' + teacher.firstName + ' ' + teacher.lastName}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary">Create Course</button>
+        <div class="text-center mt-4 ">
+            <a th:href="@{/homepage}" class="btn btn-primary">برگشتن به صفحه اصلی</a>
+        </div>
+    </form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

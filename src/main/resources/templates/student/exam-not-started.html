@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Not Started</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>آزمون هنوز شروع نشده است</h1>
+    <p th:text="${message}">لطفاً بعدادر زمان مشخص شده وارد شوید.</p>
+    <a th:href="@{/studentsController/course/{id}/{studentId}(id=${courseId}, studentId=${studentId})}">
+        <button class="button">بازگشت به صفحه دوره</button>
+    </a>
+</div>
+</body>
+</html>

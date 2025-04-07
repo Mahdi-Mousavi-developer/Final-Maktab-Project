@@ -1,0 +1,151 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Create Multiple Choice Question</title>-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Create Multiple Choice Question</h1>-->
+<!--<form th:action="@{/question/saveMultipleChoiceQuestion/{id}(id=${exam.getId()})}" method="post" th:object="${multipleChoiceQuestion}">-->
+<!--    &lt;!&ndash; فیلدهای مربوط به سوال &ndash;&gt;-->
+<!--    <div>-->
+<!--        <label for="title">Title:</label>-->
+<!--        <input type="text" id="title" th:field="*{title}" required>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="questionScore">Question Score:</label>-->
+<!--        <input type="number" id="questionScore" th:field="*{questionScore}" required>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="questionText">Question Text:</label>-->
+<!--        <textarea id="questionText" th:field="*{questionText}" required></textarea>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="correctOption">Correct Option:</label>-->
+<!--        <input type="text" id="correctOption" th:field="*{correctOption}" required>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; بخش مربوط به Choices &ndash;&gt;-->
+<!--    <div id="choices-section">-->
+<!--        <h3>Choices</h3>-->
+<!--        <div id="choices-container">-->
+<!--            &lt;!&ndash; هر Choice به صورت داینامیک اضافه می‌شود &ndash;&gt;-->
+<!--        </div>-->
+<!--        <button type="button" id="add-choice">Add Choice</button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; دکمه Submit &ndash;&gt;-->
+<!--    <button type="submit">save Question</button>-->
+<!--</form>-->
+
+<!--&lt;!&ndash; JavaScript برای مدیریت Choices &ndash;&gt;-->
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        let choiceIndex = 0;-->
+
+<!--        // افزودن Choice جدید-->
+<!--        $("#add-choice").click(function() {-->
+<!--            const choiceHtml = `-->
+<!--                <div class="choice">-->
+<!--                    <label for="choices_${choiceIndex}">Choice ${choiceIndex + 1}:</label>-->
+<!--                    <input type="text" name="choices" th:field="*{choices[__${choiceIndex}__]}" required>-->
+<!--                </div>-->
+<!--            `;-->
+<!--            $("#choices-container").append(choiceHtml);-->
+<!--            choiceIndex++;-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Multiple Choice Question</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .choice {
+            margin-bottom: 10px;
+        }
+        .btn-add-choice {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <h1 class="mb-4">Create Multiple Choice Question</h1>
+        <form th:action="@{/question/saveMultipleChoiceQuestion/{id}(id=${exam.getId()})}" method="post" th:object="${multipleChoiceQuestion}">
+            <!-- فیلدهای مربوط به سوال -->
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" class="form-control" th:field="*{title}" maxlength="8" required>
+            </div>
+            <div class="form-group">
+                <label for="questionScore">Question Score:</label>
+                <input type="number" id="questionScore" class="form-control" th:field="*{questionScore}" required>
+            </div>
+            <div class="form-group">
+                <label for="questionText">Question Text:</label>
+                <textarea id="questionText" class="form-control" th:field="*{questionText}" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="correctOption">Correct Option:</label>
+                <input type="text" id="correctOption" class="form-control" th:field="*{correctOption}" required>
+            </div>
+
+            <!-- بخش مربوط به Choices -->
+            <div id="choices-section">
+                <h3>Choices</h3>
+                <div id="choices-container">
+                    <!-- هر Choice به صورت داینامیک اضافه می‌شود -->
+                </div>
+                <button type="button" class="btn btn-primary btn-add-choice" id="add-choice">Add Choice</button>
+            </div>
+
+            <!-- دکمه Submit -->
+            <button type="submit" class="btn btn-success mt-4">Save Question</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript برای مدیریت Choices -->
+<script>
+    $(document).ready(function() {
+        let choiceIndex = 0;
+
+        // افزودن Choice جدید
+        $("#add-choice").click(function() {
+            const choiceHtml = `
+                <div class="form-group choice">
+                    <label for="choices_${choiceIndex}">Choice ${choiceIndex + 1}:</label>
+                    <input type="text" class="form-control" name="choices" th:field="*{choices[__${choiceIndex}__]}" required>
+                </div>
+            `;
+            $("#choices-container").append(choiceHtml);
+            choiceIndex++;
+        });
+    });
+</script>
+</body>
+</html>

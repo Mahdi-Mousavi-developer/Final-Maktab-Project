@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Exam</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Create Exam for Course: <span th:text="${course.title}"></span></h1>
+
+    <!-- فرم ایجاد آزمون -->
+    <form th:action="@{/teacher-exam/create/{id}(id=${course.id})}" th:object="${exam}" method="post">
+        <!-- فیلد مخفی برای ارسال ID دوره -->
+        <input type="hidden" th:field="*{course.id}" />
+
+        <!-- فیلد Name -->
+        <div class="form-group">
+            <label for="name">Exam Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+            <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</small>
+        </div>
+
+        <!-- فیلد Description -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+        </div>
+
+        <!-- فیلد Duration -->
+        <div class="form-group">
+            <label for="duration">Duration (minutes)</label>
+            <input type="number" class="form-control" id="duration" th:field="*{duration}" required>
+            <small class="text-danger" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Duration error</small>
+        </div>
+        <div class="mb-3">
+            <label for="startDate" class="form-label">تاریخ شروع:</label>
+            <input type="datetime-local" class="form-control" id="startDate" th:field="*{startDate}" required>
+        </div>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">تاریخ پایان:</label>
+            <input type="datetime-local" class="form-control" id="endDate" th:field="*{endDate}" required>
+        </div>
+
+        <!-- دکمه Submit -->
+        <button type="submit" class="btn btn-primary">Create Exam</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Descriptive Question</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Create Descriptive Question for Exam: <span th:text="${exam.name}"></span></h1>
+
+    <!-- فرم ایجاد سوال توصیفی -->
+    <form th:action="@{/question/createDescriptive/{id}(id=${exam.id})}" method="post" th:object="${descriptiveQuestion}">
+        <input type="hidden" th:field="*{exam.id}" />
+        <input type="hidden" th:field="*{course.id}" />
+        <input type="hidden" th:field="*{teacher.id}" />
+
+        <div class="form-group mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" maxlength="8" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="questionText" class="form-label">Question Text</label>
+            <textarea class="form-control" id="questionText" th:field="*{questionText}" required></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="questionScore" class="form-label">Score</label>
+            <input type="number" class="form-control" id="questionScore" th:field="*{questionScore}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="course">اآزمون مربوطه</label>
+            <input type="text" class="form-control" id="course" th:value="${exam.name}" disabled>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Question</button>
+        <a th:href="@{/question/{id}(id=${exam.id})}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

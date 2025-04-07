@@ -1,0 +1,99 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Edit User</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Edit User</h1>-->
+<!--<form action="#" th:action="@{/edit-user}" method="post">-->
+<!--    <label for="id">ID:</label>-->
+<!--    <input type="text" id="id" name="id" />-->
+
+<!--    <label for="firstName">firstName:</label>-->
+<!--    <input type="text" id="firstName" th:field="*{user.firstName}" />-->
+
+<!--    <label for="lastname">lastname:</label>-->
+<!--    <input type="text" id="lastname" th:field="*{user.lastName}" />-->
+
+<!--    <label for="username">Username:</label>-->
+<!--    <input type="text" id="username" th:field="*{user.username}" />-->
+
+<!--    <label for="dob">dob:</label>-->
+<!--    <input type="datetime-local" id="dob" th:field="*{user.dob}" />-->
+
+<!--    <label for="nationalCode">nationalCode:</label>-->
+<!--    <input type="text" id="nationalCode" th:field="*{user.nationalCode}" />-->
+
+<!--    <button type="submit">Update</button>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Edit User</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container mt-5">-->
+<!--    <h1 class="text-center">Edit User</h1>-->
+
+<!--    &lt;!&ndash; فرم ویرایش کاربر &ndash;&gt;-->
+<!--    <form th:action="@{/admin/edit-user}" th:object="${user}" method="post">-->
+<!--        &lt;!&ndash; فیلد مخفی برای ارسال ID کاربر &ndash;&gt;-->
+<!--        <input type="hidden" th:field="*{id}" />-->
+
+<!--        &lt;!&ndash; فیلد Username &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="username">Username</label>-->
+<!--            <input type="text" class="form-control" id="username" th:field="*{username}" required>-->
+<!--            <small class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</small>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد Password &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="password">Password</label>-->
+<!--            <input type="password" class="form-control" id="password" th:field="*{password}" required>-->
+<!--            <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password must be between 6 and 20 characters.</small>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد First Name &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="firstName">First Name</label>-->
+<!--            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد Last Name &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="lastName">Last Name</label>-->
+<!--            <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد National Code &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="nationalCode">National Code</label>-->
+<!--            <input type="text" class="form-control" id="nationalCode" th:field="*{nationalCode}" required>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد Date of Birth &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="dob">Date of Birth</label>-->
+<!--            <input type="datetime-local" class="form-control" id="dob" th:field="*{dob}" required>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; فیلد Role &ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="role">Role</label>-->
+<!--            <select class="form-control" id="role" th:field="*{role}">-->
+<!--                <option value="USER">User</option>-->
+<!--                <option value="ADMIN">Admin</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; دکمه Submit &ndash;&gt;-->
+<!--        <button type="submit" class="btn btn-warning">Update User</button>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,0 +1,184 @@
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Student Homepage</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--    <style>-->
+<!--        /* استایل‌های سفارشی */-->
+<!--        body {-->
+<!--            background-color: #f0f8ff;-->
+<!--            font-family: 'Arial', sans-serif;-->
+<!--        }-->
+<!--        .welcome-message {-->
+<!--            font-size: 28px;-->
+<!--            font-weight: bold;-->
+<!--            margin-top: 20px;-->
+<!--            color: #007bff;-->
+<!--        }-->
+<!--        .course-table {-->
+<!--            margin-top: 20px;-->
+<!--            background-color: #ffffff;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+<!--        .course-table th {-->
+<!--            background-color: #007bff;-->
+<!--            color: #ffffff;-->
+<!--        }-->
+<!--        .course-table td {-->
+<!--            font-size: 16px;-->
+<!--        }-->
+<!--        .btn-custom {-->
+<!--            background-color: #28a745;-->
+<!--            color: #ffffff;-->
+<!--        }-->
+<!--        .btn-custom:hover {-->
+<!--            background-color: #218838;-->
+<!--        }-->
+<!--        .container {-->
+<!--            margin-top: 50px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    &lt;!&ndash; پیام خوشامدگویی با نام کاربر &ndash;&gt;-->
+<!--    <div class="welcome-message text-center">-->
+<!--        Welcome, <span th:text="${username}"></span>!-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; لیست دوره‌های کاربر &ndash;&gt;-->
+<!--    <h3 class="text-center my-4">Your Courses</h3>-->
+<!--    <table class="table table-bordered course-table table-hover">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Course Title</th>-->
+<!--            <th>Unique Identifier</th>-->
+<!--            <th>Start Date</th>-->
+<!--            <th>End Date</th>-->
+<!--            <th> عملیات </th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        &lt;!&ndash; نمایش هر دوره به صورت یک ردیف در جدول &ndash;&gt;-->
+<!--        <tr th:each="course : ${courses}">-->
+<!--            <td th:text="${course.title}"></td>-->
+<!--            <td th:text="${course.uniqueIdentifier}"></td>-->
+<!--            <td th:text="${#temporals.format(course.startDate, 'yyyy-MM-dd HH:mm')}"></td>-->
+<!--            <td th:text="${#temporals.format(course.endDate, 'yyyy-MM-dd HH:mm')}"></td>-->
+<!--            <td>-->
+<!--                <input type="hidden" th:value="${course.id}" /> &lt;!&ndash; استفاده از th:value به جای th:field &ndash;&gt;-->
+<!--                <a th:href="@{/studentsController/course/{id}/{studentId}(id=${course.id}, studentId=${studentId})}" class="btn btn-warning btn-sm btn-custom">ورود</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <nav>-->
+<!--        <uL>-->
+<!--            <li>-->
+<!--                <form th:action="@{/logout}" method="post">-->
+<!--                    <button type="submit" class="btn btn-logout-custom btn-custom">خروج</button>-->
+<!--                </form>-->
+<!--            </li>-->
+<!--        </uL>-->
+<!--    </nav>-->
+
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Homepage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* استایل‌های سفارشی */
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+        }
+        .welcome-message {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        .course-table {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .course-table th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .course-table td {
+            font-size: 16px;
+        }
+        .btn-custom {
+            background-color: #28a745; /* تغییر رنگ دکمه ورود به آبی */
+            color: #ffffff;
+        }
+        .btn-custom2 {
+            background-color: red; /* تغییر رنگ دکمه ورود به آبی */
+            color: #ffffff;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .logout-container {
+            text-align: center;
+            margin-top: 20px; /* افزودن فاصله برای دکمه خروج */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- پیام خوشامدگویی با نام کاربر -->
+    <div class="welcome-message text-center">
+        Welcome, <span th:text="${username}"></span>!
+    </div>
+
+    <!-- لیست دوره‌های کاربر -->
+    <h3 class="text-center my-4">Your Courses</h3>
+    <table class="table table-bordered course-table table-hover">
+        <thead>
+        <tr>
+            <th>Course Title</th>
+            <th>Unique Identifier</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th> عملیات </th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- نمایش هر دوره به صورت یک ردیف در جدول -->
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.title}"></td>
+            <td th:text="${course.uniqueIdentifier}"></td>
+            <td th:text="${#temporals.format(course.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(course.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <input type="hidden" th:value="${course.id}" /> <!-- استفاده از th:value به جای th:field -->
+                <a th:href="@{/studentsController/course/{id}/{studentId}(id=${course.id}, studentId=${studentId})}" class="btn btn-custom btn-sm">ورود</a> <!-- تغییر رنگ دکمه ورود به آبی -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- فرم خروج در زیر جدول -->
+    <div class="logout-container">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-logout-custom btn-custom2">خروج</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
